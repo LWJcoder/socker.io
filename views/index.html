@@ -1,0 +1,90 @@
+<!--//index.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>realTime talk room</title>
+	 <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../public/stylesheets/clearfix.css">
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<style>
+	.fl{
+		float: left;
+	}
+	.fr{
+		float: right;
+	}
+	.header{
+		background-color: #3d3d3d ;
+		width:100%;
+		height: 28px;
+		font-size:12px;
+	}
+	.title span{
+		color: #fff;
+	}
+	.chat,.message{
+		width: 100%;
+		height: 30em;
+
+	}
+	.doc, .message{
+		border:gray solid 1px;
+	}
+	.action{
+		border-radius: 8px;
+
+	}
+
+	.inputArea{
+		width: 100%;
+	}
+	.content{
+		float: left;
+		width:95%;
+		height:35px;
+		border-radius: 8px;
+		display: inline-block;
+	}
+
+	.action {
+		float: left;
+		display: inline-block;
+	}
+</style>
+</head>
+<body>
+	
+	<div class="chatbox col-sm-12">
+	<div class="header">
+		<div class="title fl">
+			<span>欢迎使用多人聊天室</span>
+		</div>
+		<div class="fr user">
+			<span id="username"></span>| <a href="JavaScript:;" onclick="logout()">退出</a>
+		</div>
+	</div>
+		<div class="doc clearfix">
+			<div class="chat clearfix">
+				<div class="message">
+					
+				</div>
+
+				<div class="inputArea">
+					<input type="text" maxlength="140" placeholder="请输入聊天内容" name="content" class="content">
+					<input type="button" class="btn btn-primary action" value="Send" id="send">
+				</div>
+
+
+
+
+			</div>
+		</div>
+	</div>
+<script src="./client.js"></script>
+</body>
+</html>
