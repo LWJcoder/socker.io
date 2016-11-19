@@ -1,5 +1,6 @@
+
+
 /**客户端的业务逻辑实现代码
- * Created by Joh on 2016/10/22.
  */
 
 (function(){
@@ -40,51 +41,54 @@
             }
             return false;
         },
-        genUid: function () {
-            return new Date().getTime()+""+Math.floor(Math.random()*899+100);
+
+        /* 更新系统消息*/
+        updateSysMsg: function (o, action) {
+            /*  更新在线用户列表*/
+            var onlineUsers = o.onlineUsers,
+                /*   更新在线人数*/
+                onlineCount = o.onlineCount,
+                /* 入用户信息*/
+                user = o.user;
+
+            var userhtml = '';
+            var separator = '';
+
+            for(key in onlineUsers){
+                if(onlineUsers.hasOwnProperty(key)){
+                    userhtml += separator+ onlineUsers[key];
+                    separator = '、';
+                }
+            }
+            d.getElementById("onlinecount").innerHTML = 'now has '+onlineCount+'users online';
+            /* 添加系统信息*/
+            var html = '';
+            html += '<div class="msg-system">';
+            html += user.username;
+            html += (action =='login') ? '加入了聊天室':'退出了聊天室';
+            html += '</div>';
+            var section = d.createElement('section');
+            section.className = 'system linkWrap cutMsg';
+            section.innerHTML = html;
+            this.msgObj.appendChild(section);
+            this.scrollToBottom();
+
         },
-       /* 更新系统消息*/
-       updateSysMsg: function (o, action) {
-         /*  更新在线用户列表*/
-           var onlineUsers = o.onlineUsers,
-            /*   更新在线人数*/
-               onlineCount = o.onlineCount,
-              /* 入用户信息*/
-               user = o.user;
+        //初始化
+        start: function(){
+            var name = document.getElementById('username').value;
 
-           var userhtml = '';
-           var separator = '';
-
-           for(key in onlineUsers){
-               if(onlineUsers.hasOwnProperty(key)){
-                   userhtml += separator+ onlineUsers[key];
-                   separator = '、';
-               }
-           }
-           d.getElementById("onlinecount").innerHTML = 'now has '+onlineCount+'users online';
-           /* 添加系统信息*/
-           var html = '';
-           html += '<div class="msg-system">';
-           html += user.username;
-           html += (action =='login') ? '加入了聊天室':'退出了聊天室';
-           html += '</div>';
-           var section = d.createElement('section');
-           section.className = 'system linkWrap cutMsg';
-           section.innerHTML = html;
-           this.msgObj.appendChild(section);
-           this.scrollToBottom();
-
-       },
-        usernameSubmit: function () {
-            var username = d.getElementById('username').value;
-            if(username !=""){
-               this.init(username) ;
+            if(name != ''){
+                this.init(username);
             }
             return false;
+
         },
 
         init: function (username) {
-            this.userid = this.genUid();
+            // var util = require('util');
+
+            this.userid = process.getuid();
             this.username = username;
 
             d.getElementById("showusername").innerHTML = this.username;
@@ -104,7 +108,7 @@
             });
 
             this.socket.on('message', function (o) {
-                var isme = (o.userid == VHAT.userid) ? true: false;
+                var isme = ((o.userid = CHAT.userid) ? true: false);
                 var contentDiv = '<div>'+ o.content+'</div>';
                 var usernameDiv = '<span>'+o.username+'</span>';
 
@@ -124,13 +128,7 @@
 
 
     };
-    //通过“回车”提交用户名
-    d.getElementById("username").onkeydown = function(e) {
-        e = e || event;
-        if (e.keyCode === 13) {
-            CHAT.usernameSubmit();
-        }
-    };
+
     //通过“回车”提交信息
     d.getElementById("content").onkeydown = function(e) {
         e = e || event;
